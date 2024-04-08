@@ -1,0 +1,65 @@
+is_global = true
+build_property.TargetFramework = net7.0-windows10.0.19041.0
+build_property.TargetPlatformMinVersion = 10.0.17763.0
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 9A19103F-16F7-4668-BE54-9A1E7A4F7556
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = CollectionManagmentSystem
+build_property.ProjectDir = E:\Piatek\CollectionManagmentSystem\
+
+[E:/Piatek/CollectionManagmentSystem/App.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.App.xaml
+build_metadata.AdditionalFiles.TargetPath = App.xaml
+build_metadata.AdditionalFiles.RelativePath = App.xaml
+
+[E:/Piatek/CollectionManagmentSystem/AppShell.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.AppShell.xaml
+build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
+build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Controls/CollectionControl.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Controls.CollectionControl.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\CollectionControl.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\CollectionControl.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Controls/CollectionItemControl.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Controls.CollectionItemControl.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\CollectionItemControl.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\CollectionItemControl.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Resources/Styles/Colors.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Resources.Styles.Colors.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Colors.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Colors.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Resources/Styles/Styles.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Resources.Styles.Styles.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Views/CollectionPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Views.CollectionPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\CollectionPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\CollectionPage.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Views/CollectionSummaryPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Views.CollectionSummaryPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\CollectionSummaryPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\CollectionSummaryPage.xaml
+
+[E:/Piatek/CollectionManagmentSystem/Views/MainPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = CollectionManagmentSystem.Views.MainPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\MainPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\MainPage.xaml

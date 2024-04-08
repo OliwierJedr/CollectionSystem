@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManagmentSystem.Controls.CollectionItemControl">
+    
+    <Grid x:Name="itemInTable">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Text="{Binding ItemId}" Style="{StaticResource BoldLabelStyle}"/>
+        <Label Grid.Column="1" Text="{Binding ItemName}" Style="{StaticResource BoldLabelStyle}"/>
+        <Label Grid.Column="2" Text="{Binding Price, StringFormat='{0} zł'}" Style="{StaticResource BoldLabelStyle}"/>
+        <Label Grid.Column="3" Text="{Binding Rating}" Style="{StaticResource BoldLabelStyle}"/>
+        <Label Grid.Column="4" Text="{Binding Status}" Style="{StaticResource BoldLabelStyle}"/>
+    </Grid>
+</ContentView>

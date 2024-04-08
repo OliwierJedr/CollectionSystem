@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManagmentSystem.MainPage"
+             Title="Main Page">
+    <Grid BackgroundColor="#EEEEEE">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollView Grid.Column="0">
+            <StackLayout x:Name="leftLayout" Style="{StaticResource StackLayoutStyle}"  Margin="10">
+                <CollectionView x:Name="collectionListView" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" VerticalOptions="Center">
+                                <Label Style="{StaticResource LabelStyle}" Text="{Binding CollectionName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"/>
+                                <Button Text="View" Clicked="OnViewCollection_Clicked" Style="{StaticResource ButtonStyle}" VerticalOptions="Center"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+
+
+        <StackLayout x:Name="rightLayout" Style="{StaticResource StackLayoutStyle}" Grid.Column="1" Spacing="10" >
+            <Button Style="{StaticResource EditDeleteAddButtonStyle}" Text="Add Collection" Clicked="OnAddCollection_Clicked" HorizontalOptions="FillAndExpand" />
+            <StackLayout x:Name="descriptionLayout1" IsVisible="false" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+                <Button Style="{StaticResource EditDeleteAddButtonStyle}" Text="Edit" Clicked="OnEditCollection_Clicked" BindingContext="{Binding .}" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <StackLayout x:Name="descriptionLayout2" IsVisible="false" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+                <Button Style="{StaticResource EditDeleteAddButtonStyle}" Text="Delete" Clicked="OnDeleteCollection_Clicked" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Button Style ="{StaticResource ShowDataPathButtonStyle}" x:Name="showPathBtn" Text="Show data path" Clicked="ShowDataPath_Clicked" HorizontalOptions="FillAndExpand" />
+            <Label Style="{StaticResource LabelStyle}" x:Name="dataPathLabel" IsVisible="False" HorizontalOptions="Center" />
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

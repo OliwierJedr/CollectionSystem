@@ -1,0 +1,1 @@
+E:\Piatek\CollectionManagmentSystem\CollectionManagmentSystem.csproj;x64
