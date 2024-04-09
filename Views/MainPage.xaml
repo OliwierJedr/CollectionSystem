@@ -9,12 +9,12 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ScrollView Grid.Column="0">
+        <ScrollView Grid.Column="0" BackgroundColor="{StaticResource BackgroundColor}">
             <StackLayout x:Name="leftLayout" Style="{StaticResource StackLayoutStyle}"  Margin="10">
                 <CollectionView x:Name="collectionListView" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Padding="10" VerticalOptions="Center">
+                            <StackLayout Padding="10" VerticalOptions="Center" BackgroundColor="#75C3DB">
                                 <Label Style="{StaticResource LabelStyle}" Text="{Binding CollectionName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"/>
                                 <Button Text="View" Clicked="OnViewCollection_Clicked" Style="{StaticResource ButtonStyle}" VerticalOptions="Center"/>
                             </StackLayout>
