@@ -36,7 +36,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Frame>
-        <StackLayout x:Name="editButtonLayout" IsVisible="False" BackgroundColor="LightGray">
+        <StackLayout x:Name="editButtonLayout" IsVisible="False">
             <Button Style="{StaticResource CollectionButtonStyle}" Text="Edit" Clicked="OnEdit_Clicked"/>
             <Button Style="{StaticResource CollectionButtonStyle}" Text="Delete" Clicked="OnDelete_Clicked"/>
         </StackLayout>
