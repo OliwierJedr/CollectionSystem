@@ -7,7 +7,7 @@
 
 
 
-    <StackLayout Style="{StaticResource CollectionStackLayoutStyle}" x:Name="collectionPageLayout" BackgroundColor="LightGray">
+    <StackLayout Style="{StaticResource CollectionStackLayoutStyle}" x:Name="collectionPageLayout" BackgroundColor="{StaticResource BackgroundColor}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
