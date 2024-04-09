@@ -6,10 +6,10 @@
 
     
     <!--Poczatek moich styli-->
-    <Color x:Key="PrimaryColor">#2196F3</Color>
-    <Color x:Key="SecondaryColor">#FF5722</Color>
-    <Color x:Key="BackgroundColor">#EEEEEE</Color>
-    <Color x:Key="BorderColor">#CCCCCC</Color>
+    <Color x:Key="PrimaryColor">#2CB2DB</Color>
+    <Color x:Key="SecondaryColor">#2CDBCC</Color>
+    <Color x:Key="BackgroundColor">#EDE4D5</Color>
+    <Color x:Key="BorderColor">#75C3DB</Color>
 
     <Style TargetType="StackLayout" x:Key="StackLayoutStyle">
         <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
