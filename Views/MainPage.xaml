@@ -1,19 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CollectionManagmentSystem.MainPage"
              Title="Main Page">
+    
     <Grid BackgroundColor="#EEEEEE">
+        <!-- Column definitions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!-- Left layout -->
         <ScrollView Grid.Column="0" BackgroundColor="{StaticResource BackgroundColor}">
             <StackLayout x:Name="leftLayout" Style="{StaticResource StackLayoutStyle}"  Margin="10">
                 <CollectionView x:Name="collectionListView" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
+                            <!-- Collection name and view button -->
                             <StackLayout Padding="10" VerticalOptions="Center" BackgroundColor="#75C3DB">
                                 <Label Style="{StaticResource LabelStyle}" Text="{Binding CollectionName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center"/>
                                 <Button Text="View" Clicked="OnViewCollection_Clicked" Style="{StaticResource ButtonStyle}" VerticalOptions="Center"/>
@@ -24,7 +28,7 @@
             </StackLayout>
         </ScrollView>
 
-
+        <!-- Right layout (Buttons) -->
         <StackLayout x:Name="rightLayout" Style="{StaticResource StackLayoutStyle}" Grid.Column="1" Spacing="10" >
             <Button Style="{StaticResource EditDeleteAddButtonStyle}" Text="Add Collection" Clicked="OnAddCollection_Clicked" HorizontalOptions="FillAndExpand" />
             <StackLayout x:Name="descriptionLayout1" IsVisible="false" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
