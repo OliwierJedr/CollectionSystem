@@ -4,6 +4,7 @@
              x:Class="CollectionManagmentSystem.Controls.CollectionItemControl">
     
     <Grid x:Name="itemInTable">
+        <!-- Column definitions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -11,6 +12,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <!-- Column names -->
         <Label Grid.Column="0" Text="{Binding ItemId}" Style="{StaticResource BoldLabelStyle}"/>
         <Label Grid.Column="1" Text="{Binding ItemName}" Style="{StaticResource BoldLabelStyle}"/>
         <Label Grid.Column="2" Text="{Binding Price, StringFormat='{0} zł'}" Style="{StaticResource BoldLabelStyle}"/>
