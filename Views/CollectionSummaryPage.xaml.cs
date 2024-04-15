@@ -17,37 +17,51 @@ public partial class CollectionSummaryPage : ContentPage
         LoadCollectionSummary();
 	}
 
-    private async void LoadCollectionSummary()
+    private void LoadCollectionSummary()
     {
         int totalItems = 0;
         int itemsForSale = 0;
         int itemsSold = 0;
 
-        var filePath = Path.Combine(_dataFolderPath, $"{_collection.CollectionName}.txt");
-        if(File.Exists(filePath))
+        string filePath = GetCollectionFilePath(_collection.CollectionName);
+        if (File.Exists(filePath))
         {
-            using (StreamReader sr = File.OpenText(filePath))
-            {
-                string line;
-                while ((line = await sr.ReadLineAsync()) != null)
-                {
-                    string[] parts = line.Split(',');
-                    if(parts.Length == 5 ) {
-                        totalItems++;
-                        if (parts[4] == "Sold")
-                        {
-                            itemsSold++;
-                        }else if (parts[4] == "On sale")
-                        {
-                            itemsForSale++;
-                        }
-                    }
-                }
-            }
-
-            totalItemsLabel.Text = totalItems.ToString();
-            itemsSoldLabel.Text = itemsSold.ToString();
-            itemsForSaleLabel.Text = itemsForSale.ToString();
+            using StreamReader sr = File.OpenText(filePath);
+            ProcessCollectionData(sr, ref totalItems, ref itemsForSale, ref itemsSold);
+            
+            UpdateLabels(totalItems, itemsForSale, itemsSold);
         }
+    }
+
+    private string GetCollectionFilePath(string collectionName)
+    {
+        return Path.Combine(_dataFolderPath, $"{collectionName}.txt");
+    }
+
+    private void ProcessCollectionData(StreamReader sr, ref int totalItems, ref int itemsForSale, ref int itemsSold)
+    {
+        string line;
+        while ((line = sr.ReadLine()) != null)
+        {
+            string[] parts = line.Split(new string[] { "|#|" }, StringSplitOptions.None);
+            if (parts.Length == 5)
+            {
+                totalItems++;
+                UpdateItemCount(parts[4], ref itemsForSale, ref itemsSold);
+            }
+        }
+    }
+
+    private void UpdateItemCount(string status, ref int itemsForSale, ref int itemsSold)
+    {
+        if (status == "Sold") itemsSold++;
+        else if (status == "On sale") itemsForSale++;
+    }
+
+    private void UpdateLabels(int totalItems, int itemsForSale, int itemsSold)
+    {
+        totalItemsLabel.Text = totalItems.ToString();
+        itemsSoldLabel.Text = itemsSold.ToString();
+        itemsForSaleLabel.Text = itemsForSale.ToString();
     }
 }
