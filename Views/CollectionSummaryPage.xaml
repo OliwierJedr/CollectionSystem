@@ -5,17 +5,19 @@
              Title="Collection Summary">
 
     <StackLayout BackgroundColor="{StaticResource BackgroundColor}">
-        <!-- Ramka jako tło -->
         <Frame Style="{StaticResource MainFrameStyle}" WidthRequest="300" BackgroundColor="#2196F3">
             <StackLayout>
+                <!-- Total items -->
                 <Label Style="{StaticResource BoldLabelStyle}" Text="Total items: " FontAttributes="Bold"/>
                 <Label Style="{StaticResource BoldLabelStyle}" x:Name="totalItemsLabel" HorizontalOptions="Start"
                        VerticalOptions="Center" VerticalTextAlignment="Center"/>
 
+                <!-- Items sold -->
                 <Label Style="{StaticResource BoldLabelStyle}" Text="Items Sold:" FontAttributes="Bold"/>
                 <Label Style="{StaticResource BoldLabelStyle}" x:Name="itemsSoldLabel" HorizontalOptions="Start"
                        VerticalOptions="Center" VerticalTextAlignment="Center"/>
 
+                <!-- Items for sale -->
                 <Label Style="{StaticResource BoldLabelStyle}" Text="Items for Sale:" FontAttributes="Bold"/>
                 <Label Style="{StaticResource BoldLabelStyle}" x:Name="itemsForSaleLabel" HorizontalOptions="Start"
                        VerticalOptions="Center" VerticalTextAlignment="Center"/>
