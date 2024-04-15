@@ -4,10 +4,10 @@
              xmlns:controls="clr-namespace:CollectionManagmentSystem.Controls"
              x:Class="CollectionManagmentSystem.Views.CollectionPage"
              Title="Collection Page">
-
-
-
+    
+    
     <StackLayout Style="{StaticResource CollectionStackLayoutStyle}" x:Name="collectionPageLayout" BackgroundColor="{StaticResource BackgroundColor}">
+        <!-- Column definitions -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -16,30 +16,37 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!-- Column names -->
             <Label Grid.Column="0" Text="ID" FontAttributes="Bold" HorizontalOptions="Center" Style="{StaticResource CollectionLabelStyle}" />
             <Label Grid.Column="1" Text="Name" FontAttributes="Bold" HorizontalOptions="Center" Style="{StaticResource CollectionLabelStyle}" />
             <Label Grid.Column="2" Text="Prize(PLN)" FontAttributes="Bold" HorizontalOptions="Center" Style="{StaticResource CollectionLabelStyle}" />
             <Label Grid.Column="3" Text="Rating(1-10)" FontAttributes="Bold" HorizontalOptions="Center" Style="{StaticResource CollectionLabelStyle}" />
             <Label Grid.Column="4" Text="Status" FontAttributes="Bold" HorizontalOptions="Center" Style="{StaticResource CollectionLabelStyle}" />
-            
         </Grid>
+        
+        <!-- Separator -->
         <BoxView Grid.Column="4" BackgroundColor="Black" HeightRequest="1" VerticalOptions="End" />
 
         <Frame CornerRadius="5" BorderColor="Black" Padding="5" Margin="5">
+            <!-- List of items -->
             <CollectionView Style="{StaticResource CollectionViewStyle}" x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnCollectionViewSelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Padding="10" >
+                            <!-- Item's control -->
                             <controls:CollectionItemControl ItemId="{Binding ItemId}" ItemName="{Binding ItemName}" Price="{Binding Price}" Rating="{Binding Rating}" Status="{Binding Status}" />
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Frame>
+        
+        <!-- Buttons -->
         <StackLayout x:Name="editButtonLayout" IsVisible="False">
             <Button Style="{StaticResource CollectionButtonStyle}" Text="Edit" Clicked="OnEdit_Clicked"/>
             <Button Style="{StaticResource CollectionButtonStyle}" Text="Delete" Clicked="OnDelete_Clicked"/>
         </StackLayout>
+        
         <Button Style="{StaticResource CollectionButtonStyle}" Text="Summary" Clicked="OnSummary_Clicked"/>
         <Button Style="{StaticResource CollectionButtonStyle}" Text="Add" Clicked="OnAdd_Clicked"/>
 
