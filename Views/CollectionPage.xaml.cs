@@ -77,7 +77,7 @@ public partial class CollectionPage : ContentPage
     private async Task EditItemName(CollectionItem selectedItem)
     {
         string newValue = await DisplayPromptAsync("Edit Item Name", "Enter new item name:", "OK", "Cancel", selectedItem.ItemName);
-        if (newValue != null)
+        if (!string.IsNullOrWhiteSpace(newValue) && newValue != null)
             if (ItemNameAlreadyExists(newValue))
                 await ConfirmAddingNewItem();
             else
@@ -144,7 +144,14 @@ public partial class CollectionPage : ContentPage
 
     private async Task<string> PromptForItemName()
     {
-        return await DisplayPromptAsync("New Item", "Enter your item's name: ");
+        string itemName;
+        do{
+            itemName = await DisplayPromptAsync("New Item", "Enter your item's name: ");
+
+            if(string.IsNullOrWhiteSpace(itemName)
+                await DisplayAlert("Error", "Your name cannot be empty. Enter a valid name.", "OK");
+        }while(string.IsNullOrWhiteSpace(itemName));
+        return itemName;
     }
 
     private bool ItemNameAlreadyExists(string itemName)
