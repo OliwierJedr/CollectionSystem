@@ -15,6 +15,7 @@ namespace CollectionManagmentSystem
         {
             InitializeComponent();
             Directory.CreateDirectory(_dataFolderPath);
+            Debug.WriteLine("Data stored in: " + _dataFolderPath);
             LoadCollections();
         }
 
@@ -143,14 +144,6 @@ namespace CollectionManagmentSystem
         {
             if(sender is Button button && button.BindingContext is Collection selectedCollection)
                 await Navigation.PushAsync(new CollectionPage(selectedCollection));
-        }
-
-        private void ShowDataPath_Clicked(object sender, EventArgs e)
-        {
-            dataPathLabel.IsVisible = !dataPathLabel.IsVisible;
-
-            if (dataPathLabel.IsVisible)
-                dataPathLabel.Text = $"Data is stored in: {_dataFolderPath}";
         }
 
     }
