@@ -37,8 +37,6 @@
             <StackLayout x:Name="descriptionLayout2" IsVisible="false" VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
                 <Button Style="{StaticResource EditDeleteAddButtonStyle}" Text="Delete" Clicked="OnDeleteCollection_Clicked" HorizontalOptions="FillAndExpand" />
             </StackLayout>
-            <Button Style ="{StaticResource ShowDataPathButtonStyle}" x:Name="showPathBtn" Text="Show data path" Clicked="ShowDataPath_Clicked" HorizontalOptions="FillAndExpand" />
-            <Label Style="{StaticResource LabelStyle}" x:Name="dataPathLabel" IsVisible="False" HorizontalOptions="Center" />
         </StackLayout>
 
     </Grid>
