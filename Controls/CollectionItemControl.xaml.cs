@@ -13,7 +13,6 @@ public partial class CollectionItemControl : ContentView
 	public static readonly BindableProperty StatusProperty =
 		BindableProperty.Create(nameof(Status), typeof(string), typeof(CollectionItemControl), string.Empty);
 
-
     public int ItemId
 	{
 		get => (int)GetValue(ItemIdProperty);
@@ -49,7 +48,4 @@ public partial class CollectionItemControl : ContentView
 	{
 		EditItemClicked?.Invoke(this, EventArgs.Empty);
 	}
-
-
-
 }
