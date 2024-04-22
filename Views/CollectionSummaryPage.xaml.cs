@@ -32,10 +32,11 @@ public partial class CollectionSummaryPage : ContentPage
             UpdateLabels(totalItems, itemsForSale, itemsSold);
         }
     }
-
-    private string GetCollectionFilePath(string collectionName)
+    private void UpdateLabels(int totalItems, int itemsForSale, int itemsSold)
     {
-        return Path.Combine(_dataFolderPath, $"{collectionName}.txt");
+        totalItemsLabel.Text = totalItems.ToString();
+        itemsSoldLabel.Text = itemsSold.ToString();
+        itemsForSaleLabel.Text = itemsForSale.ToString();
     }
 
     private void ProcessCollectionData(StreamReader sr, ref int totalItems, ref int itemsForSale, ref int itemsSold)
@@ -58,10 +59,9 @@ public partial class CollectionSummaryPage : ContentPage
         else if (status == "On sale") itemsForSale++;
     }
 
-    private void UpdateLabels(int totalItems, int itemsForSale, int itemsSold)
+    private string GetCollectionFilePath(string collectionName)
     {
-        totalItemsLabel.Text = totalItems.ToString();
-        itemsSoldLabel.Text = itemsSold.ToString();
-        itemsForSaleLabel.Text = itemsForSale.ToString();
+        string formattedCollectionName = collectionName.Replace(" ", "_");
+        return Path.Combine(_dataFolderPath, $"{formattedCollectionName}.txt");
     }
 }
