@@ -1,13 +1,15 @@
 using CollectionManagmentSystem.Models;
+using System.Diagnostics;
 
 namespace CollectionManagmentSystem.Services
 {
     public class FileDataService
     {
-        private readonly string _dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Collections");
+        private readonly string _dataFolderPath;  
 
         public FileDataService()
         {
+            _dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Collections");
             Directory.CreateDirectory(_dataFolderPath);
         }
 
@@ -15,9 +17,16 @@ namespace CollectionManagmentSystem.Services
         {
             string filePath = GetCollectionFilePath(collectionName);
 
-            using StreamWriter writer = File.CreateText(filePath);
-            foreach (var item in items)
-                await writer.WriteLineAsync($"{item.ItemId}|#|{item.ItemName.Replace(",", "|COMMA|")}|#|{item.Price}|#|{item.Rating}|#|{item.Status}");
+            try
+            {
+                using StreamWriter writer = File.CreateText(filePath);
+                foreach (var item in items)
+                    await writer.WriteLineAsync($"{item.ItemId}|#|{item.ItemName.Replace(",", "|COMMA|")}|#|{item.Price}|#|{item.Rating}|#|{item.Status}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to save {ex.Message}");
+            }
         }
 
         public async Task<List<CollectionItem>> LoadCollectionItems(string collectionName)
@@ -66,7 +75,8 @@ namespace CollectionManagmentSystem.Services
 
         private string GetCollectionFilePath(string collectionName)
         {
-            return Path.Combine(_dataFolderPath, $"{collectionName}.txt");
+            string formattedCollectionName = collectionName.Replace(" ", "_");
+            return Path.Combine(_dataFolderPath, $"{formattedCollectionName}.txt");
         }
     }
 }
