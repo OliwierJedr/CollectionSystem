@@ -4,7 +4,8 @@ public partial class CollectionControl : ContentView
 {
 	public static readonly BindableProperty IdProperty = 
 		BindableProperty.Create(nameof(Id), typeof(int), typeof(CollectionControl), null);
-	public static readonly BindableProperty CollectionNameProperty =
+	
+ 	public static readonly BindableProperty CollectionNameProperty =
 		BindableProperty.Create(nameof(CollectionName), typeof(string), typeof(CollectionControl), string.Empty);
 
 	public int Id
@@ -19,12 +20,8 @@ public partial class CollectionControl : ContentView
 		set => SetValue(CollectionNameProperty, value);
 	}
 
-
-
 	public CollectionControl()
 	{
 		InitializeComponent();
 	}
-
-
 }
