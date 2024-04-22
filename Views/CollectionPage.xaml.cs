@@ -2,45 +2,147 @@ using CollectionManagmentSystem.Views;
 using CollectionManagmentSystem.Models;
 using CollectionManagmentSystem.Controls;
 using CollectionManagmentSystem.Services;
-using System.Diagnostics;
-
-
+using System.Text.RegularExpressions;
 namespace CollectionManagmentSystem.Views;
 
 public partial class CollectionPage : ContentPage
 {
     private List<CollectionItem> _collectionItems;
     private Collection _collection;
-    private readonly string _dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Collections");
-
+    private readonly FileDataService _fileDataService;
 
     public CollectionPage(Collection collection)
     {
         InitializeComponent();
         BindingContext = collection;
         _collection = collection;
+        _fileDataService = new FileDataService();
+       _collectionItems = new List<CollectionItem>();
+        LoadCollectionItems();
+    }
+    private async void LoadCollectionItems()
+    {
+        try
+        {
+            _collectionItems = await _fileDataService.LoadCollectionItems(_collection.CollectionName);
+            collectionView.ItemsSource = _collectionItems;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Failed to load collection items: {ex.Message}", "OK");
+        }
+    }
+
+    private async void OnAdd_Clicked(object sender, EventArgs e)
+    {
+        string itemName = await PromptForItemName();
+        if (itemName != null)
+        {
+            if (ItemNameAlreadyExists(itemName))
+            {
+                await ConfirmAddingNewItem();
+                return;
+            }
+
+            double price = await PromptForPrice();
+            if (price != -1)
+            {
+                int rating = await PromptForRating();
+                if (rating != -1)
+                {
+                    string status = await PromptForStatus();
+                    if (status != null)
+                        AddNewItem(itemName, price, rating, status);
+                }
+            }
+        }
+    }
+
+    private async Task<string> PromptForItemName()
+    {
+        return await DisplayPromptAsync("New Item", "Enter your item's name: ");
+    }
+
+    private async Task<double> PromptForPrice()
+    {
+        double price;
+        string priceText;
+        do
+        {
+            priceText = await DisplayPromptAsync("New Item", "Enter your item's price (PLN): ");
+            if (priceText == null)
+                return -1;
+
+            if (!double.TryParse(priceText, out price))
+                await DisplayAlert("Error", "Invalid price. Please enter a valid value", "OK");
+        } while (!double.TryParse(priceText, out price));
+
+        return price;
+    }
+
+    private async Task<int> PromptForRating()
+    {
+        int rating;
+        string ratingText;
+        do
+        {
+            ratingText = await DisplayPromptAsync("New Item", "Rate your item (1-10): ");
+            if (ratingText == null)
+                return -1;
+
+            if (!int.TryParse(ratingText, out rating) || rating < 1 || rating > 10)
+                await DisplayAlert("Error", "Invalid rating. Please enter a value between 1 and 10.", "OK");
+        } while (!int.TryParse(ratingText, out rating) || rating < 1 || rating > 10);
+
+        return rating;
+    }
+
+    private async Task<string> PromptForStatus()
+    {
+        return await GetStatusPrompt();
+    }
+
+
+    private async Task<string> GetStatusPrompt()
+    {
+        string[] statusOptions = { "New", "Used", "On sale", "Sold" };
+        string selectedStatus = await DisplayActionSheet("Select status: ", "Cancel", null, statusOptions);
+
+        if (selectedStatus == null)
+        {
+            return null;
+        }
+        return selectedStatus;
+    }
+
+    private void AddNewItem(string itemName, double price, int rating, string status)
+    {
+        int newItemId = _collectionItems.Count + 1;
+        CollectionItem newItem = new CollectionItem
+        {
+            ItemId = newItemId,
+            ItemName = itemName,
+            Price = price,
+            Rating = rating,
+            Status = status
+        };
+        _collectionItems.Add(newItem);
+
+        // Usuń znaki specjalne z nazwy kolekcji
+        string formattedCollectionName = RemoveSpecialCharacters(_collection.CollectionName);
+
+        // Zamień spacje na podkreślenia w nazwie kolekcji
+        formattedCollectionName = formattedCollectionName.Replace(" ", "_");
+
+        var dataService = new FileDataService();
+        dataService.SaveCollectionItems(formattedCollectionName, _collectionItems);
         LoadCollectionItems();
     }
 
-    private async void OnSummary_Clicked(object sender, EventArgs e)
+    private string RemoveSpecialCharacters(string input)
     {
-        await Navigation.PushAsync(new CollectionSummaryPage(_collection));
-    }
-
-    private async void LoadCollectionItems()
-    {
-        var dataService = new FileDataService();
-        _collectionItems = await dataService.LoadCollectionItems(_collection.CollectionName);
-        collectionView.ItemsSource = _collectionItems;
-       
-    }
-
-    private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is CollectionItem selectedItem)
-            editButtonLayout.IsVisible = true;
-        else
-            editButtonLayout.IsVisible = false;
+        string pattern = "[^a-zA-Z0-9_]";
+        return Regex.Replace(input, pattern, "");
     }
 
     private async void OnEdit_Clicked(object sender, EventArgs e)
@@ -66,9 +168,7 @@ public partial class CollectionPage : ContentPage
                     await EditStatus(selectedItem);
                     break;
             }
-
-            var dataService = new FileDataService();
-            dataService.SaveCollectionItems(_collection.CollectionName, _collectionItems);
+            _fileDataService.SaveCollectionItems(_collection.CollectionName, _collectionItems);
 
             LoadCollectionItems();
         }
@@ -77,7 +177,7 @@ public partial class CollectionPage : ContentPage
     private async Task EditItemName(CollectionItem selectedItem)
     {
         string newValue = await DisplayPromptAsync("Edit Item Name", "Enter new item name:", "OK", "Cancel", selectedItem.ItemName);
-        if (!string.IsNullOrWhiteSpace(newValue) && newValue != null)
+        if (newValue != null)
             if (ItemNameAlreadyExists(newValue))
                 await ConfirmAddingNewItem();
             else
@@ -117,41 +217,27 @@ public partial class CollectionPage : ContentPage
             selectedItem.Status = newValue;
     }
 
-    private async void OnAdd_Clicked(object sender, EventArgs e)
+    private void OnDelete_Clicked(object sender, EventArgs e)
     {
-        string itemName = await PromptForItemName();
-        if (itemName != null)
+        if (collectionView.SelectedItem is CollectionItem selectedItem)
         {
-            if (ItemNameAlreadyExists(itemName))
-            {
-                await ConfirmAddingNewItem();
-                return; 
-            }
-
-            double price = await PromptForPrice();
-            if (price != -1) 
-            {
-                int rating = await PromptForRating();
-                if (rating != -1) 
-                {
-                    string status = await PromptForStatus();
-                    if (status != null)
-                        AddNewItem(itemName, price, rating, status);
-                }
-            }
+            _collectionItems.Remove(selectedItem);
+            _fileDataService.SaveCollectionItems(_collection.CollectionName, _collectionItems);
+            LoadCollectionItems();
         }
     }
 
-    private async Task<string> PromptForItemName()
+    private async void OnSummary_Clicked(object sender, EventArgs e)
     {
-        string itemName;
-        do{
-            itemName = await DisplayPromptAsync("New Item", "Enter your item's name: ");
+        await Navigation.PushAsync(new CollectionSummaryPage(_collection));
+    }
 
-            if(string.IsNullOrWhiteSpace(itemName)
-                await DisplayAlert("Error", "Your name cannot be empty. Enter a valid name.", "OK");
-        }while(string.IsNullOrWhiteSpace(itemName));
-        return itemName;
+    private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is CollectionItem selectedItem)
+            editButtonLayout.IsVisible = true;
+        else
+            editButtonLayout.IsVisible = false;
     }
 
     private bool ItemNameAlreadyExists(string itemName)
@@ -165,86 +251,5 @@ public partial class CollectionPage : ContentPage
         return true;
     }
 
-    private async Task<double> PromptForPrice()
-    {
-        double price;
-        string priceText;
-        do
-        {
-            priceText = await DisplayPromptAsync("New Item", "Enter your item's price (PLN): ");
-            if (priceText == null)
-                return -1; 
-
-            if (!double.TryParse(priceText, out price))
-                await DisplayAlert("Error", "Invalid price. Please enter a valid value", "OK");
-        } while (!double.TryParse(priceText, out price));
-
-        return price;
-    }
-
-    private async Task<int> PromptForRating()
-    {
-        int rating;
-        string ratingText;
-        do
-        {
-            ratingText = await DisplayPromptAsync("New Item", "Rate your item (1-10): ");
-            if (ratingText == null)
-                return -1;
-
-            if (!int.TryParse(ratingText, out rating) || rating < 1 || rating > 10)
-                await DisplayAlert("Error", "Invalid rating. Please enter a value between 1 and 10.", "OK");
-        } while (!int.TryParse(ratingText, out rating) || rating < 1 || rating > 10);
-
-        return rating;
-    }
-
-    private async Task<string> PromptForStatus()
-    {
-        return await GetStatusPrompt();
-    }
-
-    private void AddNewItem(string itemName, double price, int rating, string status)
-    {
-        int newItemId = _collectionItems.Count + 1;
-        CollectionItem newItem = new CollectionItem
-        {
-            ItemId = newItemId,
-            ItemName = itemName,
-            Price = price,
-            Rating = rating,
-            Status = status
-        };
-        _collectionItems.Add(newItem);
-
-        var dataService = new FileDataService();
-        dataService.SaveCollectionItems(_collection.CollectionName, _collectionItems);
-        LoadCollectionItems();
-    }
-
-
-
-    private void OnDelete_Clicked(object sender, EventArgs e)
-    {
-        if (collectionView.SelectedItem is CollectionItem selectedItem)
-        {
-            _collectionItems.Remove(selectedItem);
-            var dataService = new FileDataService();
-            dataService.SaveCollectionItems(_collection.CollectionName, _collectionItems);
-            LoadCollectionItems();
-        }
-    }
-
-    private async Task<string> GetStatusPrompt()
-    {
-        string[] statusOptions = { "New", "Used", "On sale", "Sold" };
-        string selectedStatus = await DisplayActionSheet("Select status: ", "Cancel", null, statusOptions) ;
-
-        if(selectedStatus == null)
-        {
-            return null;
-        }
-        return selectedStatus;
-    }
 
 }
