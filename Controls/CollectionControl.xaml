@@ -5,6 +5,5 @@
 
     <StackLayout>
         <Label Text="{Binding CollectionName}"/>
-        
     </StackLayout>
 </ContentView>
