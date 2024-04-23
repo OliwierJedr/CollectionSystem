@@ -109,9 +109,8 @@ public partial class CollectionPage : ContentPage
         string selectedStatus = await DisplayActionSheet("Select status: ", "Cancel", null, statusOptions);
 
         if (selectedStatus == null)
-        {
             return null;
-        }
+        
         return selectedStatus;
     }
 
